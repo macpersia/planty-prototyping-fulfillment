@@ -23,7 +23,10 @@ export const testProgressiveResponseIntentHandler = (conv: DialogflowConversatio
   conv.ask(`This message is from Dialogflow's Cloud Functions for Agent Proto!`);
   conv.ask(new BasicCard({
     title: `Title: this is a card title`,
-    image: { url: 'https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png' },
+    image: { 
+      url: 'https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
+      accessibilityText: "Google Assistant's Badge"
+    },
     text: `This is the body text of a card. You can even use line\n breaks and emoji! 💁`,
     buttons: {
       title: 'This is a button',
