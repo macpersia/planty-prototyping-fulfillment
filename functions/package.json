@@ -17,6 +17,9 @@
     "firebase-functions": "^2.0.3"
   },
   "devDependencies": {
+    "@types/actions-on-google": "^1.10.2",
+    "@types/dialogflow": "^0.6.3",
+    "@types/firebase": "^3.2.1",
     "tslint": "~5.8.0",
     "typescript": "~2.8.3"
   },
