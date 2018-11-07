@@ -1,4 +1,4 @@
-import { dialogflow, DialogflowConversation, BasicCard, Suggestions } from 'actions-on-google';
+import { dialogflow, DialogflowConversation, BasicCard, Suggestions, Parameters, SignInArgument } from 'actions-on-google';
 import { getEmailAddress } from './assistant-utils';
 
 export const defaultWelcomeIntentHandler = (conv: DialogflowConversation) => {
@@ -39,14 +39,16 @@ export const testProgressiveResponseIntentHandler = (conv: DialogflowConversatio
   conv.contexts.set('weather', 2, { city: 'Kuala Lumpur' });
 };
 
-export const emailAddressIntentHandler = (conv: DialogflowConversation) => {
-  const emailAddress = getEmailAddress(conv);
+export const emailAddressIntentHandler = (conv: DialogflowConversation, 
+                                          params: Parameters, 
+                                          signin: SignInArgument) => {
+  const emailAddress = getEmailAddress(conv, signin);
   const title = emailAddress? 
                 'EmailAddress' 
                 : 'Account Linking Needed!';
   const text = emailAddress? 
                 'Your registered email address is ' + emailAddress
-                : 'Please link this skill, and try again.' ;
+                : 'Please link this action, and try again.' ;
   conv.ask(text);
   conv.ask(new BasicCard({ title: title,  text: text }));
 };
