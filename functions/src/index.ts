@@ -39,10 +39,9 @@ app.intent('Start Sign-in', conv => {
   // args.forEach((arg, i) => console.log(`>>>> args[${i}]: `,  arg));
   // console.log('>>>> conv in "Get Sign-in...');
   // console.log(conv);
-app.intent('Get Sign-in', (conv, params, signin: SignInArgument) => {
-  console.log('>>>> sign-in arg in "Get Sign-in": ', signin);
-  Object.keys(arguments).forEach(key => console.log(`>>>> arguments[${key}]: `,  arguments[key]));
-  if (signin.status === 'OK') {
+app.intent('Get Sign-in', (conv, params, signIn: SignInArgument) => {
+  console.log('>>>> sign-in arg in "Get Sign-in": ', signIn);
+  if (signIn.status === 'OK') {
     const payload = conv.user.profile.payload
     conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`)
   } else {
