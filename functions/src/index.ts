@@ -34,20 +34,20 @@ app.intent('Start Sign-in', conv => {
 });
 
 // Create a Dialogflow intent with the `actions_intent_SIGN_IN` event.
-// app.intent('Get Sign-in', (conv, params, signin: SignInArgument) => {
-app.intent('Get Sign-in', (conv, ...args) => {
-  // console.log('>>>> sign-in arg in "Get Sign-in": ', signin);
-  // Object.keys(arguments).forEach(key => console.log(`>>>> arguments[${key}]: `,  arguments[key]));
-  // if (signin.status === 'OK') {
-  //   const payload = conv.user.profile.payload
-  //   conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`)
-  // } else {
-      console.log('>>>> args in "Get Sign-in"...');
-      args.forEach((arg, i) => console.log(`>>>> args[${i}]: `,  arg));
-      console.log('>>>> conv in "Get Sign-in...');
-      console.log(conv);
+// app.intent('Get Sign-in', (conv, ...args) => {
+  // console.log('>>>> args in "Get Sign-in"...');
+  // args.forEach((arg, i) => console.log(`>>>> args[${i}]: `,  arg));
+  // console.log('>>>> conv in "Get Sign-in...');
+  // console.log(conv);
+app.intent('Get Sign-in', (conv, params, signin: SignInArgument) => {
+  console.log('>>>> sign-in arg in "Get Sign-in": ', signin);
+  Object.keys(arguments).forEach(key => console.log(`>>>> arguments[${key}]: `,  arguments[key]));
+  if (signin.status === 'OK') {
+    const payload = conv.user.profile.payload
+    conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`)
+  } else {
       conv.ask(`I won't be able to save your data, but what do you want to do next?`)
-  // }
+  }
 });
 
 app.intent('Default Welcome Intent', defaultWelcomeIntentHandler);
