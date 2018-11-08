@@ -46,7 +46,60 @@ export const emailAddressIntentHandler = (conv: DialogflowConversation) => {
                 : 'Account Linking Needed!';
   const text = emailAddress? 
                 'Your registered email address is ' + emailAddress
-                : 'Please link this action, and try again.' ;
+                : 'Please sign in, and try again.' ;
   conv.ask(text);
   conv.ask(new BasicCard({ title: title,  text: text }));
+};
+
+const SLOT_PHONE_NO = "phoneNo";
+export const changePhoneNoIntentHandler  = (conv: DialogflowConversation) => {
+  // logger.info(">>>> request.getDialogState(): " + request.getDialogState());
+  const phoneNoSlot = conv.parameters[SLOT_PHONE_NO];
+  console.log(">>>> phoneNoSlot: ", phoneNoSlot);
+  // final SlotConfirmationStatus confirmationStatus = phoneNoSlot.getConfirmationStatus();
+  // if (phoneNoSlot == '') {
+  //     console.log(">>>> Delegating the dialog to Alexa, to get the phone number...");
+  //     return input.getResponseBuilder().addDelegateDirective(null).build();
+  //     return;
+  // } if (confirmationStatus.equals(SlotConfirmationStatus.NONE)) {
+  //     logger.info(">>>> Delegating the dialog to Alexa, to confirm the phone number...");
+  //     return input.getResponseBuilder().addDelegateDirective(null).build();
+  // } else if (confirmationStatus.equals(SlotConfirmationStatus.CONFIRMED)) {
+  // } else {
+    const attsManager = conv.user.storage;
+    // const userId = conv.user.id;
+    // //attsManager.getSessionAttributes().put(SLOT_PHONE_NO, phoneNoSlot.getValue());
+    // attsManager.getPersistentAttributes().put(userId + "-" + SLOT_PHONE_NO, phoneNoSlot.getValue());
+    // attsManager.savePersistentAttributes();
+    attsManager[SLOT_PHONE_NO] = phoneNoSlot as string;
+
+    const response =
+            // (request.getDialogState() == IN_PROGRESS ? "Alright!" : "Sure!")
+            "Alright!"
+                    + " Consider it done!";
+    conv.ask(response);
+  // }
+  // return;
+};
+
+export const getPhoneNoIntentHandler  = (conv: DialogflowConversation) => {
+  const attsManager = conv.user.storage;
+  // const userId = conv.user.id;
+  // const phoneNoAtt = attsManager[userId + "-" + SLOT_PHONE_NO];
+  const phoneNoAtt = attsManager[SLOT_PHONE_NO];
+  console.log(">>>> phoneNoAtt: ", phoneNoAtt);
+  const phoneNo = phoneNoAtt as string;
+  conv.ask(
+    !phoneNo || phoneNo == '' ? 
+      "You haven't registered any phone number yet!"
+      : "The phone number is "
+          + phoneNo.substring(0, 2) + " "
+          + phoneNo.substring(2, 4) + " "
+          + phoneNo.substring(4, 6) + " "
+          + phoneNo.substring(6, 8) + " "
+          + phoneNo.substring(8));
+};
+
+export const newWebAppIntentHandler  = (conv: DialogflowConversation) => {
+  throw Error('Not implemented yet!');
 };

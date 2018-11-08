@@ -20,7 +20,10 @@ import {
   defaultWelcomeIntentHandler, 
   testProgressiveResponseIntentHandler, 
   fallbackIntentHandler,
-  emailAddressIntentHandler
+  emailAddressIntentHandler,
+  changePhoneNoIntentHandler,
+  getPhoneNoIntentHandler,
+  newWebAppIntentHandler
 } from './handlers';
 
 // Create an app instance
@@ -44,16 +47,17 @@ app.intent('Get Sign-in', (conv, params, signIn: SignInArgument) => {
   if (signIn.status === 'OK') {
     const email = conv.user.profile.payload.email;
     
-    let ctx = conv.contexts.get('my-session');
-    // if (!ctx) {
-    //   conv.contexts.set('my-session', 5);
-    //   ctx = conv.contexts.get('my-session');
-    // }    
-    let params = ctx.parameters;
-    if (!params) params = ctx.parameters = {};
-    params.email = email;
-    conv.contexts.output['my-session'] = ctx;
-    // console.log('>>>> all contexts - after: ', conv.contexts);
+    // let ctx = conv.contexts.get('my-session');
+    // // if (!ctx) {
+    // //   conv.contexts.set('my-session', 5);
+    // //   ctx = conv.contexts.get('my-session');
+    // // }    
+    // let params = ctx.parameters;
+    // if (!params) params = ctx.parameters = {};
+    // params.email = email;
+    // conv.contexts.output['my-session'] = ctx;
+    // // console.log('>>>> all contexts - after: ', conv.contexts);
+    conv.data['email'] = email;
 
     const payload = conv.user.profile.payload
     conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`)
@@ -67,6 +71,9 @@ app.intent('Default Welcome Intent', defaultWelcomeIntentHandler);
 app.intent('Default Fallback Intent', fallbackIntentHandler);
 app.intent('TestProgressiveResponseIntent', testProgressiveResponseIntentHandler);  
 app.intent('EmailAddressIntent', emailAddressIntentHandler);
+app.intent('ChangePhoneNoIntent', changePhoneNoIntentHandler);
+app.intent('GetPhoneNoIntent', getPhoneNoIntentHandler);
+app.intent('NewWebAppIntent', newWebAppIntentHandler);
 
 export const fulfillment = functions.https.onRequest(app);
 
