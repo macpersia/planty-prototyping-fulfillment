@@ -1,20 +1,12 @@
-import { DialogflowConversation, SignInArgument } from "actions-on-google";
+import { DialogflowConversation } from "actions-on-google";
 
-export const getEmailAddress = (conv: DialogflowConversation, signin: SignInArgument): string | undefined => {
-    // const sessionCtx = conv.contexts.get('session');
-    // console.log('>>>> sessionCtx: ', sessionCtx);
-    // const existingEmail = sessionCtx.parameters['email'];
-    // console.log('>>>> email: ', existingEmail);
-    // if (existingEmail) {
-    //     return existingEmail as string;    
-    // } else {
-        let email = undefined;
-        if (signin.status === 'OK') {
-            email = conv.user.profile.payload.email;
-        }
-        // if (email) {
-        //     sessionCtx.parameters['email'] = email;
-        // }
-        return email;
-    // }
+export const getEmailAddress = (conv: DialogflowConversation): string | null => {
+    // console.log('>>>> all contexts: ', conv.contexts);
+    const ctx = conv.contexts.get('my-session');
+    console.log('>>>> ctx: ', ctx);    
+    if (!ctx || !ctx.parameters)
+        return null;
+    const email = ctx.parameters.email;
+    console.log('>>>> email: ', email);
+    return email as string;
 };

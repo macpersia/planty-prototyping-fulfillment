@@ -27,12 +27,12 @@ import {
 const app = dialogflow({
 });
 
+
 // Intent that starts the account linking flow.
 app.intent('Start Sign-in', conv => {
   // conv.ask(new SignIn('To get your account details'))
-  conv.ask(new SignIn('To get your email address'))
+  conv.ask(new SignIn('To get your email address'));
 });
-
 // Create a Dialogflow intent with the `actions_intent_SIGN_IN` event.
 // app.intent('Get Sign-in', (conv, ...args) => {
   // console.log('>>>> args in "Get Sign-in"...');
@@ -42,8 +42,22 @@ app.intent('Start Sign-in', conv => {
 app.intent('Get Sign-in', (conv, params, signIn: SignInArgument) => {
   console.log('>>>> sign-in arg in "Get Sign-in": ', signIn);
   if (signIn.status === 'OK') {
+    const email = conv.user.profile.payload.email;
+    
+    let ctx = conv.contexts.get('my-session');
+    // if (!ctx) {
+    //   conv.contexts.set('my-session', 5);
+    //   ctx = conv.contexts.get('my-session');
+    // }    
+    let params = ctx.parameters;
+    if (!params) params = ctx.parameters = {};
+    params.email = email;
+    conv.contexts.output['my-session'] = ctx;
+    // console.log('>>>> all contexts - after: ', conv.contexts);
+
     const payload = conv.user.profile.payload
     conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`)
+
   } else {
       conv.ask(`I won't be able to save your data, but what do you want to do next?`)
   }
