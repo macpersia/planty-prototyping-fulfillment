@@ -41,8 +41,9 @@ export const testProgressiveResponseIntentHandler = (conv: DialogflowConversatio
 
 export const emailAddressIntentHandler = (conv: DialogflowConversation, 
                                           params: Parameters, 
-                                          signin: SignInArgument) => {
-  const emailAddress = getEmailAddress(conv, signin);
+                                          signIn: SignInArgument) => {
+  console.log('>>>> sign-in arg in emailAddressIntentHandler: ', signIn);
+  const emailAddress = getEmailAddress(conv, signIn);
   const title = emailAddress? 
                 'EmailAddress' 
                 : 'Account Linking Needed!';
