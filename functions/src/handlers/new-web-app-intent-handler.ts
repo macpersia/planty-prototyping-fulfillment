@@ -1,8 +1,8 @@
-import { DialogflowConversation } from 'actions-on-google';
+import { DialogflowConversation, Response } from 'actions-on-google';
 import { SLOT_PHONE_NO } from "./change-phone-no-intent-handler";
 import { AgentClient } from "./agent/agent-client";
 
-const INTENT_NEW_WEB_APP = "NewWebAppIntent";
+export const INTENT_NEW_WEB_APP = "NewWebAppIntent";
 const SLOT_APP_NAME = "appName";
 
 const createRequest: /*ActionRequest*/any = (conv: DialogflowConversation) => {
@@ -20,7 +20,7 @@ const createRequest: /*ActionRequest*/any = (conv: DialogflowConversation) => {
     });
 };
 
-export const newWebAppIntentHandler = (conv: DialogflowConversation) => {
+export const newWebAppIntentHandler = async (conv: DialogflowConversation): Promise<Response> => {
     const appNameSlot = conv.parameters[SLOT_APP_NAME];
     console.log(">>>> appNameSlot: ", appNameSlot);
 
@@ -28,10 +28,11 @@ export const newWebAppIntentHandler = (conv: DialogflowConversation) => {
     const agentClient = new AgentClient();
     const futureResponse = agentClient.messageAgent(conv, actionReq);
     futureResponse.then(res => {
-        console.log(">>>> Final response is ready.");
+        console.log(">>>> Final response is ready: ", res);
         conv.ask(res);
     }).catch(err => {
         console.error(err);
     });
+    return futureResponse;
 };
 

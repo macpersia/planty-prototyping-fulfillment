@@ -1,6 +1,7 @@
 import { AgentClient } from './agent-client';
 import { mocked } from 'ts-jest/utils';
 import { DialogflowConversation } from 'actions-on-google';
+import { INTENT_NEW_WEB_APP } from '../new-web-app-intent-handler';
 
 jest.setTimeout(10000);
 
@@ -16,7 +17,7 @@ describe('AgentClient', () => {
         const mockConv = mocked(new DialogflowConversation()) as DialogflowConversation;
         mockConv.data['email'] = 'agent.prototyper@localhost';        
         const message/*: ActionRequest*/ = /*new ActionRequest*/({
-            action: 'NewWebApp', 
+            action: INTENT_NEW_WEB_APP, 
             parameters: {
                 WebAppName: 'Tequila'
             }

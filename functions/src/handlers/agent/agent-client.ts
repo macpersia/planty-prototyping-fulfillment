@@ -72,7 +72,7 @@ export class AgentClient {
         connectAsync({})
             .then((frame) => {
                 console.info('Connected!');
-                console.debug('>>>> inside connectAsync: ', frame);
+                console.log('>>>> inside connectAsync: ', frame);
                 const emailAddress = getEmailAddress(conv);
                 const resDest = "/user/queue/action-responses/" + (emailAddress || null);
                 stompClient.subscribe(resDest, handler.messageCallback, {});
