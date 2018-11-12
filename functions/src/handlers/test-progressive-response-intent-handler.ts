@@ -1,4 +1,4 @@
-import { DialogflowConversation, BasicCard, Suggestions } from "actions-on-google";
+import { DialogflowConversation, BasicCard, Suggestions } from 'actions-on-google';
 
 export const testProgressiveResponseIntentHandler = (conv: DialogflowConversation) => {
     //console.log('agent parameter for getPhoneNoIntent: ', agent);

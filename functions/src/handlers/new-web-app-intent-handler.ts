@@ -1,22 +1,9 @@
-import { DialogflowConversation } from "actions-on-google";
+import { DialogflowConversation } from 'actions-on-google';
 import { SLOT_PHONE_NO } from "./change-phone-no-intent-handler";
-
-const SLOT_APP_NAME = "appName";
-
-export const newWebAppIntentHandler = (conv: DialogflowConversation) => {
-    const appNameSlot = conv.parameters[SLOT_APP_NAME];
-    console.log(">>>> appNameSlot: ", appNameSlot);
-
-    const actionReq = createRequest(conv);
-    // CompletableFuture<Optional<Response>>
-    // const futureResponse = agentClient.messageAgent(input, actionReq);
-    // Optional<Response>
-    // const response = futureResponse.get(45, TimeUnit.SECONDS);
-    // console.log(">>>> Final response is ready.");
-    // conv.ask(response);
-};
+import { AgentClient } from "./agent/agent-client";
 
 const INTENT_NEW_WEB_APP = "NewWebAppIntent";
+const SLOT_APP_NAME = "appName";
 
 const createRequest: /*ActionRequest*/any = (conv: DialogflowConversation) => {
     const appName = conv.parameters[SLOT_APP_NAME] as string;
@@ -32,3 +19,19 @@ const createRequest: /*ActionRequest*/any = (conv: DialogflowConversation) => {
         parameters: params
     });
 };
+
+export const newWebAppIntentHandler = (conv: DialogflowConversation) => {
+    const appNameSlot = conv.parameters[SLOT_APP_NAME];
+    console.log(">>>> appNameSlot: ", appNameSlot);
+
+    const actionReq = createRequest(conv);
+    const agentClient = new AgentClient();
+    const futureResponse = agentClient.messageAgent(conv, actionReq);
+    futureResponse.then(res => {
+        console.log(">>>> Final response is ready.");
+        conv.ask(res);
+    }).catch(err => {
+        console.error(err);
+    });
+};
+

@@ -65,9 +65,11 @@ export class AgentClient {
         const handler = this.createSessionHandler(conv, responseHandler, messageId);
 
         console.log("Connecting to: " + url + " ...");
-        const connectAsync: (headers: {}) => Promise<Stomp.Frame> = (headers) => new Promise((resolve, reject) =>
-            stompClient.connect(headers, resolve, reject));
-        const futureSession = await connectAsync({})
+        const connectAsync = (headers?: any) => new Promise<Stomp.Frame>((resolve, reject) => { 
+            stompClient.connect(headers, resolve, reject); 
+        });
+        // const futureSession = connectAsync({})
+        connectAsync({})
             .then((frame) => {
                 console.info('Connected!');
                 console.debug('>>>> inside connectAsync: ', frame);
@@ -89,8 +91,10 @@ export class AgentClient {
                     console.info("Sending an object payload to '" + reqDest + "' : ", stringifiedPayload);
                     stompClient.send(reqDest, headers, stringifiedPayload);
                 }
-            }).catch((err) => console.error(err));
-        console.log('>>>> futureSession: ', futureSession);
+            }).catch((err) => {
+                console.error(err);
+            });
+        // console.log('>>>> session: ', await futureSession);
         return futureResponse;
     }
 

@@ -1,6 +1,8 @@
-import { AgentClient } from "./agent-client";
-import { mocked } from 'ts-jest/utils'
-import { DialogflowConversation } from "actions-on-google";
+import { AgentClient } from './agent-client';
+import { mocked } from 'ts-jest/utils';
+import { DialogflowConversation } from 'actions-on-google';
+
+jest.setTimeout(10000);
 
 describe('AgentClient', () => {
     let instance: AgentClient;
@@ -11,7 +13,7 @@ describe('AgentClient', () => {
 
     it('should get a response for requesting an action', async () => {
         expect(instance).toBeInstanceOf(AgentClient);
-        const mockConv = mocked(new DialogflowConversation(), true) as any as DialogflowConversation;
+        const mockConv = mocked(new DialogflowConversation()) as DialogflowConversation;
         mockConv.data['email'] = 'agent.prototyper@localhost';        
         const message/*: ActionRequest*/ = /*new ActionRequest*/({
             action: 'NewWebApp', 

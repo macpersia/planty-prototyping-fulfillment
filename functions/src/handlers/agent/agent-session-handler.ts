@@ -1,5 +1,5 @@
-import { DialogflowConversation, Response } from "actions-on-google";
-import { getEmailAddress } from "../assistant-utils";
+import { DialogflowConversation, Response } from 'actions-on-google';
+import { getEmailAddress } from '../assistant-utils';
 import Stomp = require('stompjs');
 
 const PAYLOAD_TYPE_KEY = "planty.payload.type";
@@ -14,8 +14,7 @@ export class AgentSessionHandler /*implements StompSessionHandlerAdapter*/ {
                 protected readonly messageId: string,
                 protected readonly responseHandler: (res: Response) => any
     ) {
-        const foundEmail = getEmailAddress(conv);
-        this.emailAddress = foundEmail as string;
+        this.emailAddress = getEmailAddress(conv);
     }
 
     //@Override
