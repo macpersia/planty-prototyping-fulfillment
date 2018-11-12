@@ -1,10 +1,11 @@
-import { DialogflowConversation } from "actions-on-google";
+import { DialogflowConversation, Response } from "actions-on-google";
 import { AgentSessionHandler } from "./agent-session-handler";
 import uuid = require('uuid');
 import requestPromise = require('request-promise');
 import SockJS = require('sockjs-client');
 import Stomp = require('stompjs');
 import { getEmailAddress } from "../assistant-utils";
+import { EventEmitter } from "events";
 
 const PAYLOAD_TYPE_KEY = 'planty.payload.type';
 
@@ -49,19 +50,22 @@ export class AgentClient {
         return response['id_token'];
     }
 
-    public async messageAgent(conv: DialogflowConversation, payload: any) {
+    public async messageAgent(conv: DialogflowConversation, payload: any): Promise<Response> {
 
-        const futureResponse/*: CompletableFuture<Optional<Response>>*/ = /*new CompletableFuture<>()*/null;
+        const emitter = new EventEmitter();
+        const eventName = 'response-available';
+        const futureResponse = new Promise<Response>((resolve, reject) => emitter.on(eventName, resolve));
+        const responseHandler = (res: Response) => emitter.emit(eventName, res);
 
         const accessToken = await this.login(this.baseUrl, this.username, this.password);
         const wsUrl = process.env["PLANTY_ASSISTANT_WS_URL"];
         const url = wsUrl + "/action?access_token=" + accessToken;
         const stompClient = this.createStompClient(url);
         const messageId: string = uuid.v4();
-        const handler = this.createSessionHandler(conv, futureResponse, messageId);
+        const handler = this.createSessionHandler(conv, responseHandler, messageId);
 
         console.log("Connecting to: " + url + " ...");
-        let connectAsync: (headers: {}) => Promise<Stomp.Frame> = (headers) => new Promise((resolve, reject) =>
+        const connectAsync: (headers: {}) => Promise<Stomp.Frame> = (headers) => new Promise((resolve, reject) =>
             stompClient.connect(headers, resolve, reject));
         const futureSession = await connectAsync({})
             .then((frame) => {
@@ -85,16 +89,15 @@ export class AgentClient {
                     console.info("Sending an object payload to '" + reqDest + "' : ", stringifiedPayload);
                     stompClient.send(reqDest, headers, stringifiedPayload);
                 }
-            }
-            ).catch((err) => console.error(err));
+            }).catch((err) => console.error(err));
         console.log('>>>> futureSession: ', futureSession);
         return futureResponse;
     }
 
     protected createSessionHandler/*: AgentSessionHandler*/(
-        conv: DialogflowConversation, futureResponse/*: CompletableFuture<Optional<Response>>*/,
+        conv: DialogflowConversation, responseHandler: (res: Response) => any,
         messageId: string
     ) {
-        return new AgentSessionHandler(conv, messageId, futureResponse);
+        return new AgentSessionHandler(conv, messageId, responseHandler);
     }
 }

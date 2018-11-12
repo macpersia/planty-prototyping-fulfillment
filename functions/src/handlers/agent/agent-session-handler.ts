@@ -1,4 +1,4 @@
-import { DialogflowConversation } from "actions-on-google";
+import { DialogflowConversation, Response } from "actions-on-google";
 import { getEmailAddress } from "../assistant-utils";
 import Stomp = require('stompjs');
 
@@ -11,8 +11,8 @@ export class AgentSessionHandler /*implements StompSessionHandlerAdapter*/ {
     public messageCallback = (message: Stomp.Message) => this.handleFrame(message.headers, message.body);
 
     constructor(protected readonly conv: DialogflowConversation,
-        protected readonly messageId: string,
-        protected readonly futureResponse/*: CompletableFuture<Optional<Response>>*/
+                protected readonly messageId: string,
+                protected readonly responseHandler: (res: Response) => any
     ) {
         const foundEmail = getEmailAddress(conv);
         this.emailAddress = foundEmail as string;
@@ -42,10 +42,13 @@ export class AgentSessionHandler /*implements StompSessionHandlerAdapter*/ {
     // @Override
     public handleFrame(headers/*: StompHeaders*/, payload: any): void {
 
-        const destination = headers.getDestination();
+        console.log('>>>> handling frame...');
+        console.log('>>>> headers: ', headers);
+        console.log('>>>> payload: ', payload);
+        const destination = headers['destination'];
 
-        if (headers.getFirst("correlation-id") === this.messageId
-            && destination.startsWith("/user/queue/action-responses")
+        if (headers['correlation-id'] == this.messageId
+            && destination.startsWith('/user/queue/action-responses')
             && destination.endsWith(this.emailAddress)) {
 
             const response = payload instanceof String ?
@@ -55,10 +58,8 @@ export class AgentSessionHandler /*implements StompSessionHandlerAdapter*/ {
             const report: string = response == "Pong!" ?
                 "Agent pong!"
                 : "All right! I'm done!";
-            // futureResponse.complete(
-            //         input.getResponseBuilder()
-            //                 .withSpeech(report)
-            //                 .build());
+            // this.futureResponse.resolve(this.conv.ask(report));
+            this.responseHandler(report);
         }
     }
 

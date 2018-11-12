@@ -21,5 +21,6 @@ describe('AgentClient', () => {
         });
         const response = await instance.messageAgent(mockConv, message);
         expect(response).toBeDefined();
+        expect(response).toBe("All right! I'm done!");
     });
 });
