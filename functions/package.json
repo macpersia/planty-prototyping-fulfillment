@@ -37,5 +37,10 @@
     "tslint": "~5.8.0",
     "typescript": "^2.8.4"
   },
-  "private": true
+  "private": true,
+  "optionalDependencies": {
+    "planty-assistant-fulfillment-functions": "file:../../planty-assistant-fulfillment/functions/lib",
+    "planty-assistant-model": "file:../../planty-assistant-model/lib",
+    "planty-prototyping-model": "file:../../planty-prototyping-model/lib"
+  }
 }
