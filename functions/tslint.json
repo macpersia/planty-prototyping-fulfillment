@@ -1,10 +1,10 @@
 {
   "linterOptions": {
-      "exclude": [
-          "lib",
-          "node_modules",
-          "src/**/*.spec.ts"
-      ]
+    "exclude": [
+      "lib",
+      "node_modules",
+      "src/**/*.spec.ts"
+    ]
   },
   "rules": {
     // -- Strict errors --

@@ -16,15 +16,17 @@ import * as functions from 'firebase-functions';
 
 import { dialogflow, Image, BasicCard, Suggestions, SignIn, SignInArgument } from 'actions-on-google';
 
-import { defaultWelcomeIntentHandler, fallbackIntentHandler } from './handlers';
-import { testProgressiveResponseIntentHandler } from './handlers/test-progressive-response-intent-handler';
-import { emailAddressIntentHandler } from './handlers/email-address-intent-handler';
+import { defaultWelcomeIntentHandler } from './handlers';
+import { fallbackIntentHandler } from 'planty-assistant-fulfillment-functions/handlers';
+import { testProgressiveResponseIntentHandler } from 'planty-assistant-fulfillment-functions/handlers/test-progressive-response-intent-handler';
+import { emailAddressIntentHandler } from 'planty-assistant-fulfillment-functions/handlers/email-address-intent-handler';
 import { changePhoneNoIntentHandler } from './handlers/change-phone-no-intent-handler';
 import { getPhoneNoIntentHandler } from './handlers/get-phone-no-intent-handler';
 import { newWebAppIntentHandler } from './handlers/new-web-app-intent-handler';
 
 // Create an app instance
 const app = dialogflow({
+  clientId: '1033807724027-paihgfarehcqdtlsm193apcp101qirrh.apps.googleusercontent.com'
 });
 
 

@@ -1,6 +1,7 @@
 import { DialogflowConversation, Response } from 'actions-on-google';
-import { getEmailAddress } from '../assistant-utils';
+import { getEmailAddress } from 'planty-assistant-fulfillment-functions/handlers/assistant-utils';
 import Stomp = require('stompjs');
+// import AgentSessionHandler from 'planty-assistant-fulfillment-functions/handlers/agent/';
 
 const PAYLOAD_TYPE_KEY = "planty.payload.type";
 
