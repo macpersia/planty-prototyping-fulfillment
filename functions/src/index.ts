@@ -14,7 +14,7 @@ import * as functions from 'firebase-functions';
 
 // process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
 
-import { dialogflow, Image, BasicCard, Suggestions, SignIn, SignInArgument } from 'actions-on-google';
+import { dialogflow, SignIn, SignInArgument } from 'actions-on-google';
 
 import { defaultWelcomeIntentHandler } from './handlers';
 import { fallbackIntentHandler } from 'planty-assistant-fulfillment-functions/handlers';

@@ -1,42 +1,16 @@
-import { DialogflowConversation, Response } from 'actions-on-google';
-import { getEmailAddress } from 'planty-assistant-fulfillment-functions/handlers/assistant-utils';
-import Stomp = require('stompjs');
-// import AgentSessionHandler from 'planty-assistant-fulfillment-functions/handlers/agent/';
+import { AgentSessionHandler as SuperSessionHandler } from 'planty-assistant-fulfillment-functions/handlers/agent/agent-session-handler';
+import { INTENT_NEW_WEB_APP } from '../new-web-app-intent-handler';
+import { ActionResponse } from 'planty-prototyping-model/action-response';
 
 const PAYLOAD_TYPE_KEY = "planty.payload.type";
 
-export class AgentSessionHandler /*implements StompSessionHandlerAdapter*/ {
+export class AgentSessionHandler extends SuperSessionHandler {
 
-    protected readonly emailAddress: string;
-    public connectCallback = (frame: Stomp.Frame) => this.afterConnected({}, frame.headers);
-    public messageCallback = (message: Stomp.Message) => this.handleFrame(message.headers, message.body);
-
-    constructor(protected readonly conv: DialogflowConversation,
-                protected readonly messageId: string,
-                protected readonly responseHandler: (res: Response) => any
-    ) {
-        this.emailAddress = getEmailAddress(conv);
-    }
-
-    //@Override
-    public afterConnected(session/*: StompSession*/, connectedHeaders/*: StompHeaders*/): void {
-        // super.afterConnected(session, connectedHeaders);
-        console.log('>>>> inside afterConnected, session: ', session);
-        console.log('>>>> inside afterConnected, headers: ', connectedHeaders);
-    }
-
-    // @Override
-    // public getPayloadType(headers/*: StompHeaders*/): /*Type*/any {
-    //     const typeName: string = headers.getFirst(PAYLOAD_TYPE_KEY);
-    //     if (typeName == null)
-    //         return super.getPayloadType(headers);
-    //     try {
-    //         return Class.forName(typeName);
-
-    //     } catch (e/*: ClassNotFoundException*/) {
-    //         console.error(e.getMessage(), e);
-    //         return ActionResponse.class;
-    //     }
+    // constructor(protected readonly conv: DialogflowConversation,
+    //             protected readonly messageId: string,
+    //             protected readonly responseHandler: (res: Response) => any
+    // ) {
+    //     super(conv, messageId, responseHandler);
     // }
 
     // @Override
@@ -61,32 +35,28 @@ export class AgentSessionHandler /*implements StompSessionHandlerAdapter*/ {
             // this.futureResponse.resolve(this.conv.ask(report));
             this.responseHandler(report);
         }
-    }
 
-    // private String toPrettyJson(Object payload) {
-    //     String prettyPayload;
-    //     try {
-    //         prettyPayload = payload instanceof String ?
-    //             (String) payload
-    //             : (payload instanceof byte[] ?
-    //                 new String((byte[]) payload)
-    //                 : objectWriter.writeValueAsString(payload));
-
-    //     } catch (JsonProcessingException e) {
-    //         logger.error(e.getMessage(), e);
-    //         prettyPayload = String.valueOf(payload);
-    //     }
-    //     return prettyPayload;
-    // }
-
-    // @Override
-    public handleException(session/*: StompSession*/, command/*: StompCommand*/, headers/*: StompHeaders*/,
-        payload/*: byte[]*/, exception/*: Throwable*/): void {
-        console.error(exception.toString(), exception);
-    }
-
-    // @Override
-    public handleTransportError(session/*: StompSession*/, exception/*: Throwable*/): void {
-        console.error(exception.toString(), exception);
+        if ( headers[PAYLOAD_TYPE_KEY] == 'be.planty.models.prototyping.ActionRequest'
+             && this.conv.intent.match(INTENT_NEW_WEB_APP)) {
+            try {
+                console.log("Received action response: ", payload);
+                const actionResponse = payload as ActionResponse<string>;
+                const statusCode = actionResponse.statusCode;
+                if ( statusCode / 100 == 2) {
+                    const appId = actionResponse.body;
+                    this.responseHandler("<speak>"
+                                            + "I'm done with the app creation, and the app i.d. is"
+                                            + " <say-as interpret-as=\"telephone\">" + appId + "</say-as>."
+                                            + "</speak>");
+                } else{
+                    this.responseHandler("The request failed with error code" +
+                                            " <say-as interpret-as=\"telephone\">" + statusCode + "</say-as>.");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            super.handleFrame(headers, payload);
+        }
     }
 }

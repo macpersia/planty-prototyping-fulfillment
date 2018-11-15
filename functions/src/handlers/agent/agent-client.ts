@@ -8,10 +8,11 @@ export class AgentClient extends SuperAgentClient {
         return super.messageAgent(conv, payload);
     }
 
-    // protected createSessionHandler: AgentSessionHandler (
-    //     conv: DialogflowConversation, responseHandler: (res: Response) => any,
-    //     messageId: string
-    // ) {
-    //     return new AgentSessionHandler(conv, messageId, responseHandler);
-    // }
+    protected createSessionHandler( 
+        conv: DialogflowConversation, 
+        responseHandler: (res: Response) => any,
+        messageId: string 
+    ) {
+        return new AgentSessionHandler(conv, messageId, responseHandler);
+    }
 }
