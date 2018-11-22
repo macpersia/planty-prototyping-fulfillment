@@ -1,8 +1,8 @@
 import { AgentSessionHandler as SuperSessionHandler } from 'planty-assistant-fulfillment-functions/handlers/agent/agent-session-handler';
 import { INTENT_NEW_WEB_APP } from '../new-web-app-intent-handler';
 import { ActionResponse } from 'planty-prototyping-model/action-response';
-
-const PAYLOAD_TYPE_KEY = "planty.payload.type";
+import { PAYLOAD_TYPE_KEY } from 'planty-assistant-model';
+import { AgentClient } from './agent-client';
 
 export class AgentSessionHandler extends SuperSessionHandler {
 
@@ -36,7 +36,7 @@ export class AgentSessionHandler extends SuperSessionHandler {
             this.responseHandler(report);
         }
 
-        if ( headers[PAYLOAD_TYPE_KEY] == 'be.planty.models.prototyping.ActionRequest'
+        if ( headers[PAYLOAD_TYPE_KEY] == AgentClient.PAYLOAD_TYPE
              && this.conv.intent.match(INTENT_NEW_WEB_APP)) {
             try {
                 console.log("Received action response: ", payload);
