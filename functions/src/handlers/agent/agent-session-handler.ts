@@ -16,26 +16,6 @@ export class AgentSessionHandler extends SuperSessionHandler {
     // @Override
     public handleFrame(headers/*: StompHeaders*/, payload: any): void {
 
-        console.log('>>>> handling frame...');
-        console.log('>>>> headers: ', headers);
-        console.log('>>>> payload: ', payload);
-        const destination = headers['destination'];
-
-        if (headers['correlation-id'] == this.messageId
-            && destination.startsWith('/user/queue/action-responses')
-            && destination.endsWith(this.emailAddress)) {
-
-            const response = payload instanceof String ?
-                payload as string
-                : /*toPrettyJson(payload)*/payload;
-            console.info("Here's the action response: " + response);
-            const report: string = response == "Pong!" ?
-                "Agent pong!"
-                : "All right! I'm done!";
-            // this.futureResponse.resolve(this.conv.ask(report));
-            this.responseHandler(report);
-        }
-
         if ( headers[PAYLOAD_TYPE_KEY] == AgentClient.PAYLOAD_TYPE
              && this.conv.intent.match(INTENT_NEW_WEB_APP)) {
             try {
