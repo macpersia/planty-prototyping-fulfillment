@@ -4,9 +4,10 @@ import { AgentSessionHandler } from "./agent-session-handler";
 
 export class AgentClient extends SuperAgentClient {
 
-    static PAYLOAD_TYPE = 'be.planty.models.prototyping.ActionRequest';
+    static REQ_PAYLOAD_TYPE = 'be.planty.models.prototyping.ActionRequest';
+    static RES_PAYLOAD_TYPE = 'be.planty.models.prototyping.ActionResponse';
 
-    protected getPayloadType = () => AgentClient.PAYLOAD_TYPE;
+    protected getPayloadType = () => AgentClient.REQ_PAYLOAD_TYPE;
 
     async messageAgent(conv: DialogflowConversation, payload: any): Promise<Response> {
         return super.messageAgent(conv, payload);
