@@ -27,14 +27,16 @@ export class AgentSessionHandler extends SuperSessionHandler {
                 const statusCode = actionResponse.statusCode;
                 if ( statusCode / 100 == 2) {
                     const appId = actionResponse.body;
-                    const formattedAppId = appId.length < 4 ? appId : appId.substr(0, 4) + " " + appId.substr(4);
+                    const formattedAppId = appId.length <= 4 ? appId : appId.substr(0, 4) + " " + appId.substr(4);
                     this.responseHandler("<speak>"
                                             + "I'm done with the app creation, and the app i.d. is"
                                             + " <say-as interpret-as=\"telephone\">" + formattedAppId + "</say-as>."
                                             + "</speak>");
                 } else{
-                    this.responseHandler("The request failed with error code" +
-                                            " <say-as interpret-as=\"telephone\">" + statusCode + "</say-as>.");
+                    this.responseHandler("<speak>"
+                                            + "The request failed with error code"
+                                            + " <say-as interpret-as=\"telephone\">" + statusCode + "</say-as>."
+                                            + "</speak>");
                 }
             } catch (e) {
                 console.error(e);
