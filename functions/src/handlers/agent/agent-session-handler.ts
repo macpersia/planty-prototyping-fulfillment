@@ -23,7 +23,8 @@ export class AgentSessionHandler extends SuperSessionHandler {
         if (headers['correlation-id'] == this.messageId
             && destination.startsWith('/user/queue/action-responses')
             && headers[PAYLOAD_TYPE_KEY] == AgentClient.RES_PAYLOAD_TYPE
-             && this.conv.intent == INTENT_NEW_WEB_APP) {
+            && this.conv.intent == INTENT_NEW_WEB_APP
+        ) {
             try {
                 console.log("Received action response: ", payload);
                 const actionResponse = JSON.parse(payload) as ActionResponse<string>;
