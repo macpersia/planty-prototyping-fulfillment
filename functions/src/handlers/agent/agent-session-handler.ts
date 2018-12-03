@@ -19,7 +19,10 @@ export class AgentSessionHandler extends SuperSessionHandler {
         console.log('>>>> headers[PAYLOAD_TYPE_KEY]: ', headers[PAYLOAD_TYPE_KEY]);
         console.log('>>>> AgentClient.RES_PAYLOAD_TYPE: ', AgentClient.RES_PAYLOAD_TYPE);
         console.log('>>>> this.conv.intent: ',  this.conv.intent);
-        if ( headers[PAYLOAD_TYPE_KEY] == AgentClient.RES_PAYLOAD_TYPE
+        const destination = headers['destination'];
+        if (headers['correlation-id'] == this.messageId
+            && destination.startsWith('/user/queue/action-responses')
+            && headers[PAYLOAD_TYPE_KEY] == AgentClient.RES_PAYLOAD_TYPE
              && this.conv.intent == INTENT_NEW_WEB_APP) {
             try {
                 console.log("Received action response: ", payload);
