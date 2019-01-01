@@ -17,8 +17,8 @@ node {
                 sh "cp package.json lib/"
                 ////sh "npm pack lib/"
                 //sh "npm publish lib/ --registry http://repo-nexus-service:8081/repository/npm-local/"
-                sh "npx firebase deploy --only functions"
             }
         }
+        sh "firebase deploy --only functions"
 	}
 }
