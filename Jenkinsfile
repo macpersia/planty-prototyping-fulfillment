@@ -7,6 +7,10 @@ node {
 	stage('build & publish') {
         dir (path: './functions/') {
             nodejs(nodeJSInstallationName: 'nodejs-10.14.2', configId: 'my-npmrc') {
+                sh "npm pack planty-assistant-model"
+                sh "npm pack planty-assistant-fulfillment-functions"
+                sh "npm pack planty-prototyping-model"
+
                 sh "npm install"
                 sh "npm run build"
                 sh "cp package.json lib/"
