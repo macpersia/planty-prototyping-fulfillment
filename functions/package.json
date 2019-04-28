@@ -17,7 +17,7 @@
     "dialogflow-fulfillment": "^0.6.1",
     "firebase-admin": "~6.0.0",
     "firebase-functions": "^2.0.3",
-    "planty-assistant-fulfillment-functions": "file:planty-assistant-fulfillment-functions-0.0.7.tgz",
+    "planty-assistant-fulfillment-functions": "file:planty-assistant-fulfillment-functions-0.0.9.tgz",
     "planty-assistant-model": "file:planty-assistant-model-0.0.8.tgz",
     "planty-prototyping-model": "file:planty-prototyping-model-0.0.4.tgz",
     "request": "^2.88.0",
