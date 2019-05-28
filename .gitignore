@@ -1,1 +1,6 @@
 # Add any directories, files, or patterns you don't want to be tracked by version control
+functions/node_modules/
+
+client_secret_*.apps.googleusercontent.com.json
+
+/firebase-debug.log
