@@ -4,3 +4,7 @@ functions/node_modules/
 client_secret_*.apps.googleusercontent.com.json
 
 /firebase-debug.log
+
+# Added by Hadi
+.idea/
+
