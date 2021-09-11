@@ -32,7 +32,7 @@ export class AgentSessionHandler extends SuperSessionHandler {
           const appId = actionResponse.body;
           const formattedAppId = (!appId || appId.length <= 4) ? appId : appId.substr(0, 4) + ' ' + appId.substr(4);
           this.responseHandler('<speak>'
-                                + 'I\'m done with the app creation, and the app i.d. is'
+                                + 'I\'m done with the app creation, and the app ID is'
                                 + ' <say-as interpret-as="telephone">' + formattedAppId + '</say-as>.'
                                 + '</speak>');
         } else {
