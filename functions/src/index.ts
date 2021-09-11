@@ -1,4 +1,4 @@
-import * as functions from "firebase-functions";
+import * as functions from 'firebase-functions';
 
 import { dialogflow/* , DialogflowConversation, Contexts*/, SignIn, SignInArgument } from 'actions-on-google';
 
