@@ -60,4 +60,5 @@ app.intent('ChangePhoneNoIntent', changePhoneNoIntentHandler);
 app.intent('GetPhoneNoIntent', getPhoneNoIntentHandler);
 app.intent('NewWebAppIntent', newWebAppIntentHandler);
 
-export const fulfillment = functions.https.onRequest(app);
+export const dialogflowFirebaseFulfillment = functions.https.onRequest(app);
+
