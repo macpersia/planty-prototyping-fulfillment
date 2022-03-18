@@ -25,6 +25,6 @@ describe('AgentClient', () => {
     });
     const response = await instance.messageAgent(mockConv, message);
     expect(response).toBeDefined();
-    expect(response).toContain('I\'m done with the app creation, and the app ID is');
+    expect(response).toContain('I\'m done with the app creation, and the app ID is ');
   });
 });
