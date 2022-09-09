@@ -14,7 +14,7 @@ node {
                 """
                 sh "npm install"
                 sh "npm run build"
-                sh "cp package.json lib/"
+                //sh "cp package.json lib/"
                 ////sh "npm pack lib/"
                 //sh "npm publish lib/ --registry http://repo-nexus-service:8081/repository/npm-local/"
             }

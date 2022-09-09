@@ -1,8 +1,21 @@
 {
   "functions": {
+    "runtime": "nodejs14",
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint",
       "npm --prefix \"$RESOURCE_DIR\" run build"
-    ]
+    ],
+    "source": "functions"
+  },
+  "emulators": {
+    "auth": {
+      "port": 19099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": true
+    }
   }
 }

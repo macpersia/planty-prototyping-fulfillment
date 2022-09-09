@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "bespoken-tools": "^2.4.100",
     "firebase-tools": "~6.8.0"
   },
   "scripts": {
