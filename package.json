@@ -5,8 +5,8 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "bespoken-tools": "^2.4.100",
-    "firebase-tools": "~6.8.0"
+    "bespoken-tools": "~2.6.3",
+    "firebase-tools": "~11.8.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
