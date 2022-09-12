@@ -6,13 +6,16 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src",
+    // ".eslintrc.js",
+    // "jest.config.js"
   ],
   "exclude": [
-    "src/handlers/agent/*.spec.ts"
+    // "src/handlers/agent/*.spec.ts"
   ]
 }
